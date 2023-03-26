@@ -1,46 +1,49 @@
-import styles from "./TreeContainer.module.scss";
+import React, { useEffect } from 'react'
 import {
-  VscExpandAll,
   VscCollapseAll,
+  VscExpandAll
   // VscNewFile,
   // VscNewFolder,
-} from "react-icons/vsc";
-import { TTreeNode } from "../tree.types";
-import { useTreeContext } from "../context/TreeContext";
-import TreeNode from "./TreeNode";
-import React, { useEffect } from "react";
+} from 'react-icons/vsc'
+
+import { useTreeContext } from '../context/TreeContext'
+import { type TTreeNode } from '../tree.types'
+import styles from './TreeContainer.module.scss'
+import TreeNode from './TreeNode'
 
 const TreeContainer = React.memo(
   ({
     data,
-    onSelect,
+    onSelect
   }: {
-    data: TTreeNode;
-    onSelect?: (node: TTreeNode) => void;
+    data: TTreeNode
+    onSelect?: (node: TTreeNode) => void
   }) => {
-    const { selected, getId, expandedIds, onToggleAll } = useTreeContext();
+    const { selected, getId, expandedIds, onToggleAll } = useTreeContext()
 
-    const nodeId = getId(data);
-    const selectedId = getId(selected);
-    const isSelected = selectedId === nodeId;
-    const isExpanded = expandedIds[nodeId];
+    const nodeId = getId(data)
+    const selectedId = getId(selected)
+    const isSelected = selectedId === nodeId
+    const isExpanded = expandedIds[nodeId]
 
     useEffect(() => {
-      if (selected) {
-        onSelect?.(selected);
+      if (selected != null) {
+        onSelect?.(selected)
       }
-    }, [selected]);
+    }, [selected, onSelect])
 
     return (
       <div className={styles.root}>
         <div className={styles.actions}>
           {/* <VscNewFolder onClick={onToggleAll} title="Add folder" />
           <VscNewFile onClick={onToggleAll} title="Add file" /> */}
-          {Object.values(expandedIds).length && Object.values(expandedIds).every((v) => !!v) ? (
+          {(Object.values(expandedIds).length > 0) && Object.values(expandedIds).every((v) => !!v)
+            ? (
             <VscCollapseAll onClick={onToggleAll} title="Collapse all" />
-          ) : (
+              )
+            : (
             <VscExpandAll onClick={onToggleAll} title="Expand all" />
-          )}
+              )}
         </div>
         <TreeNode
           node={data}
@@ -49,8 +52,10 @@ const TreeContainer = React.memo(
           path={[]}
         />
       </div>
-    );
+    )
   }
-);
+)
 
-export default TreeContainer;
+TreeContainer.displayName = 'TreeContainer'
+
+export default TreeContainer

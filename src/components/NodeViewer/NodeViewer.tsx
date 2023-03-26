@@ -1,13 +1,16 @@
-import { FileNode } from "../../types";
-import styles from "./NodeViewer.module.scss";
+import React from 'react'
 
-export default function NodeViewer({ data }: { data?: FileNode }) {
-  if (!data)
+import { type FileNode } from '../../types'
+import styles from './NodeViewer.module.scss'
+
+export function NodeViewer ({ data }: { data?: FileNode }) {
+  if (data == null) {
     return (
       <div className={styles.root}>
         <h1>Select a node!</h1>
       </div>
-    );
+    )
+  }
   return (
     <div className={styles.root}>
       <h1>{data?.name}</h1>
@@ -15,5 +18,5 @@ export default function NodeViewer({ data }: { data?: FileNode }) {
       <p>{data?.size}</p>
       <p>{data?.modified}</p>
     </div>
-  );
+  )
 }

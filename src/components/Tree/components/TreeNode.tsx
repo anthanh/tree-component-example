@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react'
+import { FiFile, FiFolder, FiMinusSquare, FiPlusSquare } from 'react-icons/fi'
 
-import styles from "./TreeNode.module.scss";
-import { useTreeContext } from "../context/TreeContext";
-import { FiPlusSquare, FiMinusSquare, FiFile, FiFolder } from "react-icons/fi";
-import { TREE_NODE_KINDS, TTreeNode } from "../tree.types";
+import { useTreeContext } from '../context/TreeContext'
+import { TREE_NODE_KINDS, type TTreeNode } from '../tree.types'
+import styles from './TreeNode.module.scss'
 
 interface TreeNodeProps {
-  node: TTreeNode;
-  expanded?: boolean;
-  selected?: boolean;
-  path: number[];
+  node: TTreeNode
+  expanded?: boolean
+  selected?: boolean
+  path: number[]
   // onToggle: (id: string) => void,
   // onAdd: (id: string) => void,
   // onRemove: (id: string) => void,
@@ -17,54 +17,55 @@ interface TreeNodeProps {
 
 const TreeNode = React.memo(
   ({ node, expanded, selected, path }: TreeNodeProps) => {
-    const { name, children } = node;
+    const { name, children } = node
 
     const {
       selected: selectedNode,
       getId,
       expandedIds,
       onToggle,
-      setSelected,
-    } = useTreeContext();
+      setSelected
+    } = useTreeContext()
 
-    const selectedId = getId(selectedNode);
-
-    console.log("treenode", node.name, path);
+    const selectedId = getId(selectedNode)
 
     return (
       <div>
         <div
-          className={`${styles.node} ${selected ? styles.active : ""}`}
-          onClick={() => setSelected(node)}
+          className={`${styles.node} ${selected ? styles.active : ''}`}
+          onClick={() => { setSelected(node) }}
         >
           <span
             className={`${styles.toggle} ${
-              children?.length ? "" : styles.hidden
+              children?.length ? '' : styles.hidden
             }`}
             onClick={(evt) => {
-              evt.preventDefault();
-              evt.stopPropagation();
-              onToggle(node);
+              evt.preventDefault()
+              evt.stopPropagation()
+              onToggle(node)
             }}
-            title={expanded ? "Collapse" : "Expand"}
+            title={expanded ? 'Collapse' : 'Expand'}
           >
             {expanded ? <FiMinusSquare /> : <FiPlusSquare />}
           </span>
           <span className={styles.kind}>
-            {node.kind === TREE_NODE_KINDS.directory ? (
+            {node.kind === TREE_NODE_KINDS.directory
+              ? (
               <FiFolder />
-            ) : (
+                )
+              : (
               <FiFile />
-            )}
+                )}
           </span>
           <span>{name}</span>
         </div>
-        {expanded ? (
+        {expanded
+          ? (
           <div className={styles.children}>
             {children?.map((child, index) => {
-              const childId = getId(child);
-              const isExpanded = expandedIds[childId];
-              const isSelected = selectedId === childId;
+              const childId = getId(child)
+              const isExpanded = expandedIds[childId]
+              const isSelected = selectedId === childId
               return (
                 <TreeNode
                   key={childId}
@@ -73,13 +74,16 @@ const TreeNode = React.memo(
                   selected={isSelected}
                   path={[...path, index]}
                 />
-              );
+              )
             })}
           </div>
-        ) : null}
+            )
+          : null}
       </div>
-    );
+    )
   }
-);
+)
 
-export default TreeNode;
+TreeNode.displayName = 'TreeNode'
+
+export default TreeNode

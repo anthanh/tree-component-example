@@ -1,1 +1,1 @@
-export { default as default } from "./NodeViewer";
+export * from './NodeViewer'

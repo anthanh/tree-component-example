@@ -1,24 +1,25 @@
-import styles from "./App.module.scss";
-import Tree from "./components/Tree";
-import { mockData } from "./data.mock";
-import Split from "react-split";
-import NodeViewer from "./components/NodeViewer";
-import { useCallback, useState } from "react";
-import { FileNode } from "./types";
 
-function App() {
+import React, { useCallback, useState } from 'react'
+import Split from 'react-split'
 
-const [selected, setSelected] = useState<FileNode | undefined>(undefined);
+import styles from './App.module.scss'
+import { NodeViewer } from './components/NodeViewer'
+import { Tree } from './components/Tree'
+import { mockData } from './data.mock'
+import { type FileNode } from './types'
+
+function App () {
+  const [selected, setSelected] = useState<FileNode | undefined>(undefined)
 
   const handleSelect = useCallback(
-    (selected: FileNode) => setSelected(selected),
+    (selected: FileNode) => { setSelected(selected) },
     []
-  );
+  )
 
   const getId = useCallback(
-    (node?: FileNode) => node? `${node?.name}-${node?.kind}`: '',
+    (node?: FileNode) => (node != null) ? `${node?.name}-${node?.kind}` : '',
     []
-  );
+  )
 
   return (
     <div className={styles.root}>
@@ -31,7 +32,7 @@ const [selected, setSelected] = useState<FileNode | undefined>(undefined);
         </div>
       </Split>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,2 +1,2 @@
 
-export { default as default } from './components/Tree';
+export * from './components/Tree'

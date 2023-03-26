@@ -1,6 +1,6 @@
-import { FileNode } from './types';
+import { type FileNode } from './types'
 
-export const mockData:FileNode = {
+export const mockData: FileNode = {
   name: 'project',
   kind: 'directory',
   children: [
@@ -83,4 +83,4 @@ export const mockData:FileNode = {
       modified: '2022-03-08 13:00:00'
     }
   ]
-};
+}
