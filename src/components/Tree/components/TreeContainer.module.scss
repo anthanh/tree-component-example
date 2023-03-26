@@ -1,0 +1,12 @@
+.root {
+  overflow: hidden;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5em;
+  & svg {
+    margin-right: 0.5em;
+  }
+}

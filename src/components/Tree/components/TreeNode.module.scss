@@ -1,0 +1,32 @@
+.node {
+  display: flex;
+  align-items: center;
+  padding: 0.25em 0;
+  cursor: pointer;
+  user-select: none;
+  background-color: #fff;
+  transition: background-color 0.2s ease-in-out;
+  will-change: background-color;
+}
+
+.children {
+  padding-left: 1em;
+}
+
+.toggle {
+  margin-right: 0.5em;
+  display: flex;
+}
+
+.kind {
+  display: flex;
+  margin-right: 0.2em;
+}
+
+.active {
+  background-color: #e6f7ff;
+}
+
+.hidden {
+  visibility: hidden;
+}
