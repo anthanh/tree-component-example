@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import TreeContext, { type TreeContextState } from '../context/TreeContext'
 import { getAllIds } from '../tree.helpers'
-import { type TTreeNode } from '../tree.types'
+import { TREE_NODE_KINDS, type TTreeNode, type TTreeNodeKind } from '../tree.types'
 
 const TreeProvider = ({
   data,
@@ -48,10 +48,11 @@ const TreeProvider = ({
     })
   }
 
-  const setSelected = (node: TTreeNode) => {
+  const setSelected = (node: TTreeNode, path: number[]) => {
     const changedId = getId(node)
     setTreeContext({
       ...treeContext,
+      selectedPath: path,
       selected:
         (treeContext.selected == null) || getId(treeContext.selected) !== changedId
           ? node
@@ -59,17 +60,41 @@ const TreeProvider = ({
     })
   }
 
-  // const addNode = useCallback((node: TTreeNode) => {
-  //   if (!treeContext.selected) return
+  const addNode = (kind: TTreeNodeKind, path: number[]) => {
+    const isFile = kind === TREE_NODE_KINDS.file
 
-  //   setTreeContext({
-  //     ...treeContext,
-  //     data: {
-  //       ...treeContext.data,
-  //       children: [...treeContext.data.children, node],
-  //     },
-  //   });
-  // }, []);
+    const newNode: TTreeNode = {
+      name: isFile ? 'New File' : 'New Folder',
+      kind,
+      children: []
+    }
+
+    let anchorNode = treeContext.data!
+    let parentNode = treeContext.data!
+    path.forEach((index) => {
+      parentNode = anchorNode
+      anchorNode = anchorNode?.children?.[index] as TTreeNode
+    })
+
+    const newPath = [...path]
+    const newExpandIds: Record<string, boolean> = {}
+    // add nodes to files as siblings, to folders as children
+    if (anchorNode.kind === TREE_NODE_KINDS.file) {
+      parentNode.children = parentNode.children ?? []
+      parentNode?.children.splice(parentNode?.children?.length || 0, 0, newNode)
+      newPath[newPath.length - 1] = parentNode?.children?.length - 1
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      newNode.name += `${parentNode.name}-${parentNode.children.length}`
+    } else {
+      anchorNode?.children?.splice(anchorNode?.children?.length || 0, 0, newNode)
+      newPath.splice(newPath.length, 0, (anchorNode?.children?.length ?? 0) - 1)
+      newExpandIds[getId(anchorNode)] = true
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      newNode.name += `-${anchorNode.name}-${anchorNode?.children?.length}`
+    }
+
+    setTreeContext({ ...treeContext, selected: newNode, selectedPath: newPath, expandedIds: { ...treeContext.expandedIds, ...newExpandIds } })
+  }
 
   return (
     <TreeContext.Provider
@@ -78,7 +103,8 @@ const TreeProvider = ({
         getId,
         onToggle,
         onToggleAll,
-        setSelected
+        setSelected,
+        addNode
       }}
     >
       {children}

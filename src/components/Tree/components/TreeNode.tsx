@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FiFile, FiFolder, FiMinusSquare, FiPlusSquare } from 'react-icons/fi'
 
 import { useTreeContext } from '../context/TreeContext'
@@ -10,9 +10,6 @@ interface TreeNodeProps {
   expanded?: boolean
   selected?: boolean
   path: number[]
-  // onToggle: (id: string) => void,
-  // onAdd: (id: string) => void,
-  // onRemove: (id: string) => void,
 }
 
 const TreeNode = React.memo(
@@ -27,13 +24,15 @@ const TreeNode = React.memo(
       setSelected
     } = useTreeContext()
 
+    const [isEditing, setIsEditing] = useState(false)
+
     const selectedId = getId(selectedNode)
 
     return (
       <div>
         <div
           className={`${styles.node} ${selected ? styles.active : ''}`}
-          onClick={() => { setSelected(node) }}
+          onClick={() => { setSelected(node, path) }}
         >
           <span
             className={`${styles.toggle} ${
@@ -57,7 +56,14 @@ const TreeNode = React.memo(
               <FiFile />
                 )}
           </span>
-          <span>{name}</span>
+          <span
+          className={styles.name}
+          contentEditable={isEditing} suppressContentEditableWarning
+            onBlur={e => {
+              setIsEditing(false)
+            }}
+            onDoubleClick={() => { setIsEditing(true) }}
+          >{name}</span>
         </div>
         {expanded
           ? (

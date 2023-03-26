@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { type FileNode } from '../../types'
+import { type FileNode } from '../../app.types'
 import styles from './NodeViewer.module.scss'
 
 export function NodeViewer ({ data }: { data?: FileNode }) {

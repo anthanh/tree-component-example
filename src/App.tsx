@@ -3,10 +3,10 @@ import React, { useCallback, useState } from 'react'
 import Split from 'react-split'
 
 import styles from './App.module.scss'
+import { type FileNode } from './app.types'
 import { NodeViewer } from './components/NodeViewer'
 import { Tree } from './components/Tree'
 import { mockData } from './data.mock'
-import { type FileNode } from './types'
 
 function App () {
   const [selected, setSelected] = useState<FileNode | undefined>(undefined)

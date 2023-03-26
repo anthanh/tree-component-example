@@ -23,6 +23,12 @@
   margin-right: 0.2em;
 }
 
+.name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .active {
   background-color: #e6f7ff;
 }

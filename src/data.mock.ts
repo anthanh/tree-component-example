@@ -1,4 +1,4 @@
-import { type FileNode } from './types'
+import { type FileNode } from './app.types'
 
 export const mockData: FileNode = {
   name: 'project',

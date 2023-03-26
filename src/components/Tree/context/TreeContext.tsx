@@ -1,10 +1,11 @@
 import { createContext, useContext } from 'react'
 
-import { type TTreeNode } from '../tree.types'
+import { type TTreeNode, type TTreeNodeKind } from '../tree.types'
 
 export interface TreeContextState {
   data?: TTreeNode
   selected?: TTreeNode
+  selectedPath?: number[]
   expandedIds: Record<string, boolean>
 }
 
@@ -12,7 +13,8 @@ export interface TreeContextValue extends TreeContextState {
   getId: (node?: TTreeNode) => string
   onToggle: (node: TTreeNode) => void
   onToggleAll: () => void
-  setSelected: (node: TTreeNode) => void
+  setSelected: (node: TTreeNode, path: number[]) => void
+  addNode: (kind: TTreeNodeKind, path: number[]) => void
 }
 
 const TreeContext = createContext<TreeContextValue>({
@@ -20,7 +22,8 @@ const TreeContext = createContext<TreeContextValue>({
   getId: () => '',
   onToggle: () => {},
   onToggleAll: () => {},
-  setSelected: () => {}
+  setSelected: () => {},
+  addNode: () => {}
 })
 
 export function useTreeContext () {
