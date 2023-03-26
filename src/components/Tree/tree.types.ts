@@ -9,4 +9,5 @@ export const TREE_NODE_KINDS = {
   directory: 'directory'
 } as const
 
+// safer than string
 export type TTreeNodeKind = keyof typeof TREE_NODE_KINDS
