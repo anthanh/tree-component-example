@@ -84,13 +84,13 @@ const TreeProvider = ({
       parentNode?.children.splice(parentNode?.children?.length || 0, 0, newNode)
       newPath[newPath.length - 1] = parentNode?.children?.length - 1
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      newNode.name += `${parentNode.name}-${parentNode.children.length}`
+      newNode.name += `_${parentNode.name}-${parentNode.children.length}`
     } else {
       anchorNode?.children?.splice(anchorNode?.children?.length || 0, 0, newNode)
       newPath.splice(newPath.length, 0, (anchorNode?.children?.length ?? 0) - 1)
       newExpandIds[getId(anchorNode)] = true
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      newNode.name += `-${anchorNode.name}-${anchorNode?.children?.length}`
+      newNode.name += `_${anchorNode.name}-${anchorNode?.children?.length}`
     }
 
     setTreeContext({ ...treeContext, selected: newNode, selectedPath: newPath, expandedIds: { ...treeContext.expandedIds, ...newExpandIds } })
