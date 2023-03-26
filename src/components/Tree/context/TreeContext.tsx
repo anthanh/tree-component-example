@@ -15,6 +15,7 @@ export interface TreeContextValue extends TreeContextState {
   onToggleAll: () => void
   setSelected: (node: TTreeNode, path: number[]) => void
   addNode: (kind: TTreeNodeKind, path: number[]) => void
+  updateNode: (node: TTreeNode, path: number[]) => void
 }
 
 const TreeContext = createContext<TreeContextValue>({
@@ -23,7 +24,8 @@ const TreeContext = createContext<TreeContextValue>({
   onToggle: () => {},
   onToggleAll: () => {},
   setSelected: () => {},
-  addNode: () => {}
+  addNode: () => {},
+  updateNode: () => {}
 })
 
 export function useTreeContext () {

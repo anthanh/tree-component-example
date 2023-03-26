@@ -96,6 +96,15 @@ const TreeProvider = ({
     setTreeContext({ ...treeContext, selected: newNode, selectedPath: newPath, expandedIds: { ...treeContext.expandedIds, ...newExpandIds } })
   }
 
+  const updateNode = (node: TTreeNode, path: number[]) => {
+    let anchorNode = treeContext.data!
+    path.forEach((index) => {
+      anchorNode = anchorNode?.children?.[index] as TTreeNode
+    })
+    anchorNode.name = node.name
+    setTreeContext({ ...treeContext })
+  }
+
   return (
     <TreeContext.Provider
       value={{
@@ -104,7 +113,8 @@ const TreeProvider = ({
         onToggle,
         onToggleAll,
         setSelected,
-        addNode
+        addNode,
+        updateNode
       }}
     >
       {children}

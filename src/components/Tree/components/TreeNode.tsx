@@ -21,7 +21,8 @@ const TreeNode = React.memo(
       getId,
       expandedIds,
       onToggle,
-      setSelected
+      setSelected,
+      updateNode
     } = useTreeContext()
 
     const [isEditing, setIsEditing] = useState(false)
@@ -60,6 +61,7 @@ const TreeNode = React.memo(
           className={styles.name}
           contentEditable={isEditing} suppressContentEditableWarning
             onBlur={e => {
+              updateNode({ ...node, name: e.currentTarget.textContent ?? node.name }, path)
               setIsEditing(false)
             }}
             onDoubleClick={() => { setIsEditing(true) }}
