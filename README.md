@@ -84,6 +84,7 @@ The project is configured with a linter and formatter to enforce best practices.
 - Delegated `getChildren` and `render` methods so we can fully abstract tree-renderer from tree-model and define its components with TS Generics.
 - Re-render performance, try to avoid full tree render for subtree changes. Maybe migrating the shared Tree state from context to useReducer could help.
 - new nodes should be compliant with the consumer datamodel (files, directories), so we can define better defaults for each kind.
+- Better UI
 - creatable/draggable as optional features
 - loader state
 - search input to filter nodes
